@@ -1,42 +1,27 @@
-# Replace HEROLAB_USERNAME, HEROLAB_PASSWORD, HEROLAB_DEVICENAME, and CHARACTER_ID under character_url.
-# Replace or add sound URLs to your preferences.
-# Filename can be whatever you want, however config.yaml is loaded by default.
-
 # Login information
-username: "HEROLAB_USERNAME"
-password: "HERLAB_PASSWORD"
-device: "HEROLAB_DEVICENAME"
-character_url: "https://herolab.online/characters/CHARACTER_ID/1/play/character"
+username: ""
+password: ""
+login_url: "https://messages.google.com/web/authentication"
 
-# File outputs
-roll_stats: C:\Users\night\OneDrive\D&D\Die_Roll_Stats
 
-# Audio links
-good_sounds:
-  - "https://www.myinstants.com/media/sounds/final-fantasy-vii-victory-fanfare-1.mp3"
-  - "https://www.myinstants.com/media/sounds/anime-wow-sound-effect.mp3"
-  - "https://www.myinstants.com/media/sounds/mlg-airhorn.mp3"
-  - "https://www.myinstants.com/media/sounds/zelda-chest-opening-and-item-catch.mp3"
-  - "https://www.myinstants.com/media/sounds/kids-saying-yay-sound-effect_3.mp3"
-  - "https://www.myinstants.com/media/sounds/everything-is-awesome.mp3"
-  - "https://www.myinstants.com/media/sounds/wootwoot_ringtone.mp3"
-  - "https://www.myinstants.com/media/sounds/nicolas-cage-thats-all-you-had-to-do.mp3"
+# Regex patterns.
+"time_pattern": r\d{1,2}:\d{2}\s*(AM|PM)
+"day_pattern": r(Mon|Tue|Wed|Thu|Fri|Sat|Sun)$
 
-bad_sounds:
-  - "https://www.myinstants.com/media/sounds/dun-dun-dun-sound-effect-brass_8nFBccR.mp3"
-  - "https://www.myinstants.com/media/sounds/the-price-is-right-losing-horn.mp3"
-  - "https://www.myinstants.com/media/sounds/meme-de-creditos-finales.mp3"
-  - "https://www.myinstants.com/media/sounds/awkward-cricket-sound-effect.mp3"
-  - "https://www.myinstants.com/media/sounds/heknew.mp3"
-  - "https://www.myinstants.com/media/sounds/wilhelmscream.mp3"
-  - "https://www.myinstants.com/media/sounds/oh-no-nono.mp3"
-  - "https://www.myinstants.com/media/sounds/downer_noise.mp3"
-  - "https://www.myinstants.com/media/sounds/epic-fail_V7o3nYs.mp3"
-  - "https://www.myinstants.com/media/sounds/extremely-loud-incorrect-buzzer_0cDaG20.mp3"
-  - "https://www.myinstants.com/media/sounds/youaaaaargh.mp3"
-  - "https://www.myinstants.com/media/sounds/perfect-fart.mp3"
-  - "https://www.myinstants.com/media/sounds/wcgertcz074.mp3"
-  - "https://www.myinstants.com/media/sounds/nicolas-cage-fuuuuuuuu.mp3"
 
-nice:
-  - "https://www.myinstants.com/media/sounds/careless_whispers.mp3"
+# Conversations to delete. NAME is the name of the conversation to delete. DESC is a description of what it is. Set KEEP to 1 to keep message for at least 2 days.
+text_names:
+  - desc: Text to delete dexcription.
+    name: Name of conversation. EX - (555) 555-5555
+    keep: 0
+  - desc: Text to delete dexcription.
+    name: Name of conversation. EX - Bobby
+    keep: 0
+  - desc: Text to delete dexcription.
+    name: Name of conversation. EX - 34585
+    keep: 0
+
+
+
+# MISC
+DEBUG: True
