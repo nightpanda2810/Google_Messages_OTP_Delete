@@ -19,6 +19,7 @@ I got tired of deleting OTPs, and other types of notification texts that I reall
 1. If you want to keep a message longer than an hour, put a 1 in the "keep" column of the name's row in the config file. This will keep the message for 2 days.
 1. Watch the script work. It will NOT delete messages yet. 
 1. Once you are satisfied that it is working as expected, change gotta_log_in to False and run again. The script will run without logging in and do the same as previously, without deleting messages. To begin deleting messages, in line 89 and 104, change "Cancel" to "Delete". Case sensitive.
+1. Lastly, unless you wish to run manually and/or watch it delete messages, in line 39 change slow_mo to 0, and headless to True.
 1. You are all set! You can change debug to False in config.yaml if you no longer want to see the print statements in your terminal.
 
 ## Known issues or limitations
