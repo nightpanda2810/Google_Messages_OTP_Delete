@@ -22,15 +22,15 @@ days_of_week = [
 ]
 today_index = days_of_week.index(today_abbreviation)
 valid_abbreviations = []
-for i in range(2, 7):  # Check for 2, 3, 4, 5, and 6 days ago
+for i in range(2, 7):
     index = (today_index - i) % 7
     valid_abbreviations.append(days_of_week[index])
 
 
 def run(playwright: Playwright) -> None:
-    browser_type = playwright.firefox  # Or playwright.chromium, playwright.webkit
+    browser_type = playwright.firefox
     user_data_dir = "./userdata"
-    browser = browser_type.launch_persistent_context(headless=True, user_data_dir=user_data_dir)
+    browser = browser_type.launch_persistent_context(headless=True, user_data_dir=user_data_dir, slow_mo=0)
     page = browser.new_page()
     page.goto(config["login_url"])
     if gotta_log_in:
@@ -65,8 +65,6 @@ def run(playwright: Playwright) -> None:
         try:
             for name in names_to_check:
                 value = names_to_check[name]
-                # print(f"VALUE: {value}")
-                # print(f"VALUE: {value['days_keep']}")
                 if config["DEBUG"]:
                     print(f"Checking if conversation: {name}, {value['desc']} exists.")
                 if re.findall(config["day_pattern"][1:], value["checked_name"]) and value["days_keep"] == 1:
@@ -108,7 +106,6 @@ def run(playwright: Playwright) -> None:
     if config["DEBUG"]:
         print("Completed cleaning up text messages.")
 
-    # KEEP SESSION OPEN (Comment out when you're ready to close)
     time.sleep(1)
     browser.close()
 
