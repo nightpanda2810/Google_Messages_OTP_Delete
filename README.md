@@ -26,4 +26,4 @@ Simple script to clean up specified messages in Google Messages app. I got tired
 If you want this to run automatically, you can use a cron job, windows task manager, or something similar. If you're going to automate it on another machine, copying the userdata folder you previously created is important. It will save your login session and allow you to log in without having to go through the confirmation process again.
 
 ## MISC
-I personally set this up in a Linux virtual machine to run hourly, and it works great for me. I'm not sure how well it will work on Windows or MacOS, when automated, but I coded and tested in Windows before  moving over to Linux.
+I personally set this up in a Linux virtual machine to run hourly during the times I'm normally awake (in order to see the messages that came in while I was sleeping), and it works great for me. I'm not sure how well it will work on Windows or MacOS, when automated, but I coded and tested in Windows before  moving over to Linux.
