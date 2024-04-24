@@ -30,7 +30,7 @@ for i in range(2, 7):  # Check for 2, 3, 4, 5, and 6 days ago
 def run(playwright: Playwright) -> None:
     browser_type = playwright.firefox  # Or playwright.chromium, playwright.webkit
     user_data_dir = "./userdata"
-    browser = browser_type.launch_persistent_context(headless=False, user_data_dir=user_data_dir, slow_mo=250)
+    browser = browser_type.launch_persistent_context(headless=True, user_data_dir=user_data_dir)
     page = browser.new_page()
     page.goto(config["login_url"])
     if gotta_log_in:
@@ -46,7 +46,7 @@ def run(playwright: Playwright) -> None:
             if config["DEBUG"]:
                 print(f"Checking if the {item['name']} conversation is in the list.")
             text_name = str(item["name"])
-            checked_name = page.get_by_role("option", name=text_name).text_content(timeout=2500)
+            checked_name = page.get_by_role("option", name=text_name).text_content(timeout=10000)
             names_to_check[text_name] = {
                 "desc": item["desc"],
                 "checked_name": checked_name,
