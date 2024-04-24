@@ -1,5 +1,8 @@
 ## Introduction
-Simple script to clean up specified messages in Google Messages app. I got tired of deleting OTPs, and other types of notification texts that I really only want to see once. I wanted to be able to just check a list and have it delete them for me. My phone is not rootable, so this was the best option I could think of, and a good way for me to practice Python. Automatic OTP deletion option in Messages app only works for some of them.
+This is my first public Python project. It is a simple script that uses Playwright to log into Google Messages app and delete messages based on the names you specify in the config file.
+
+### Why?
+I got tired of deleting OTPs, and other types of notification texts that I really only want to see once. I wanted to be able to just check a list and have it delete them for me. My phone is not rootable, so this was the best option I could think of, and a good way for me to practice Python. Automatic OTP deletion option in Messages app only works for some of them.
 
 ## How to use
 1. To set up, on line 10, you first must change gotta_log_in to True.
@@ -26,4 +29,4 @@ Simple script to clean up specified messages in Google Messages app. I got tired
 If you want this to run automatically, you can use a cron job, windows task manager, or something similar. If you're going to automate it on another machine, copying the userdata folder you previously created is important. It will save your login session and allow you to log in without having to go through the confirmation process again.
 
 ## MISC
-I personally set this up in a Linux virtual machine to run hourly during the times I'm normally awake (in order to see the messages that came in while I was sleeping), and it works great for me. I'm not sure how well it will work on Windows or MacOS, when automated, but I coded and tested in Windows before  moving over to Linux.
+I personally set this up in a Linux virtual machine to run hourly during the times I'm normally awake (in order to see the messages that came in while I was sleeping), and it works great for me. I wanted to keep all messages available for me to see when I wake up in order to see if any OTPs or other notifications came in before they got deleted. I'm not sure how well it will work on Windows or MacOS, when automated, but I coded and tested in Windows before moving it over to Linux.
