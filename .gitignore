@@ -1,8 +1,5 @@
 # Folders
-__pycache__
 venv
-dist
-testing
 userdata
 test.py
 
