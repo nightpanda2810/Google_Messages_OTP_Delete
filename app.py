@@ -1,16 +1,18 @@
-# Base application structure
-
-from pandalibs.yaml_importer import get_configuration_data
-from pandalibs.pprint_nosort import pp  # noqa: F401
+# Public library imports
 from playwright.sync_api import Playwright, sync_playwright
 import datetime
 import time
 import re
 
+# Personal library imports
+from pandalibs.yaml_importer import get_configuration_data
+from pandalibs.pprint_nosort import pp
+
+# MISC needed variables.
 gotta_log_in = None
+user_data_dir = "./userdata"
 config = get_configuration_data()
-today = datetime.date.today()
-today_abbreviation = today.strftime("%a").lower()
+names_to_check = {}
 days_of_week = [
     "sun",
     "mon",
@@ -20,6 +22,10 @@ days_of_week = [
     "fri",
     "sat",
 ]
+
+# Get current date and create index for proper deletion of messages.
+today = datetime.date.today()
+today_abbreviation = today.strftime("%a").lower()
 today_index = days_of_week.index(today_abbreviation)
 valid_abbreviations = []
 for i in range(2, 7):
@@ -27,12 +33,14 @@ for i in range(2, 7):
     valid_abbreviations.append(days_of_week[index])
 
 
+# Main function.
 def run(playwright: Playwright) -> None:
     browser_type = playwright.firefox
-    user_data_dir = "./userdata"
     browser = browser_type.launch_persistent_context(headless=True, user_data_dir=user_data_dir, slow_mo=0)
     page = browser.new_page()
     page.goto(config["login_url"])
+
+    # Check if we need to log in. Only used for initial setup of user data.
     if gotta_log_in:
         page.locator("mw-sign-in-banner").get_by_role("button", name="Sign in").click()
         page.get_by_label("Email or phone").fill(config["username"])
@@ -40,7 +48,7 @@ def run(playwright: Playwright) -> None:
         page.get_by_label("Enter your password").fill(config["password"])
         page.get_by_label("Enter your password").press("Enter")
 
-    names_to_check = {}
+    # Check for each conversation and place them into a dictionary for later reference.
     for item in config["text_names"]:
         try:
             if config["DEBUG"]:
@@ -61,12 +69,14 @@ def run(playwright: Playwright) -> None:
         print("\nThese are the names to check:\n")
         pp(names_to_check)
         print("")
+    # Check if there is anything to delete.
     if names_to_check:
         try:
             for name in names_to_check:
                 value = names_to_check[name]
                 if config["DEBUG"]:
                     print(f"Checking if conversation: {name}, {value['desc']} exists.")
+                # Check if the message is meant to be kept for 2 days, and if it falls in the keep period will be skipped.
                 if re.findall(config["day_pattern"][1:], value["checked_name"]) and value["days_keep"] == 1:
                     last_three_chars = value["checked_name"][-3:].lower()
                     if last_three_chars in valid_abbreviations:
@@ -81,6 +91,7 @@ def run(playwright: Playwright) -> None:
                     else:
                         if config["DEBUG"]:
                             print(f"{value['desc']} is being kept some time.")
+                # Check if the message is meant to be deleted immediately. Message must be an hour old to delete.
                 elif re.findall(config["time_pattern"][1:], value["checked_name"]) or re.findall(config["day_pattern"][1:], value["checked_name"]):
                     if value["days_keep"] == 0:
                         label = f"Options for {name}"
@@ -106,6 +117,7 @@ def run(playwright: Playwright) -> None:
     if config["DEBUG"]:
         print("Completed cleaning up text messages.")
 
+    # Probably don't need this, but why remove it if it works.
     time.sleep(1)
     browser.close()
 
