@@ -9,7 +9,7 @@ login_url: "https://messages.google.com/web/authentication"
 "day_pattern": r(Mon|Tue|Wed|Thu|Fri|Sat|Sun)$
 
 
-# Conversations to delete. NAME is the name of the conversation to delete. DESC is a description of what it is. Set KEEP to 1 to keep message for at least 2 days.
+# Conversations to delete. NAME is the name of the conversation to delete. DESC is a description of what it is. Set KEEP to 1 to keep message for least 2 days.
 text_names:
   - desc: Text to delete dexcription.
     name: Name of conversation. EX - (555) 555-5555
