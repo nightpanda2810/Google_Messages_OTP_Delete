@@ -1,23 +1,27 @@
-# Public library imports
-from playwright.sync_api import Playwright, sync_playwright
+# pylint: disable=broad-exception-caught
+"""Removes specified text messages from Google Messages."""
+# Standard library imports
 import datetime
 import time
 import re
+
+# Public library imports
+from playwright.sync_api import Playwright, sync_playwright
 
 # Personal library imports
 from pandalibs.yaml_importer import get_configuration_data
 from pandalibs.pprint_nosort import pp
 
 # MISC needed variables.
-gotta_log_in = None
-user_data_dir = "./userdata"
+GOTTA_LOG_IN = None
+USER_DATA_DIR = "./userdata"
 config = get_configuration_data()
 names_to_check = {}
-days_of_week = [
+DAYS_OF_WEEK = [
     "sun",
     "mon",
-    "tue",
     "wed",
+    "tue",
     "thu",
     "fri",
     "sat",
@@ -26,22 +30,23 @@ days_of_week = [
 # Get current date and create index for proper deletion of messages.
 today = datetime.date.today()
 today_abbreviation = today.strftime("%a").lower()
-today_index = days_of_week.index(today_abbreviation)
+today_index = DAYS_OF_WEEK.index(today_abbreviation)
 valid_abbreviations = []
 for i in range(2, 7):
     index = (today_index - i) % 7
-    valid_abbreviations.append(days_of_week[index])
+    valid_abbreviations.append(DAYS_OF_WEEK[index])
 
 
 # Main function.
 def run(playwright: Playwright) -> None:
+    """Main run function."""
     browser_type = playwright.firefox
-    browser = browser_type.launch_persistent_context(headless=True, user_data_dir=user_data_dir, slow_mo=0)
+    browser = browser_type.launch_persistent_context(headless=True, user_data_dir=USER_DATA_DIR, slow_mo=0)
     page = browser.new_page()
     page.goto(config["login_url"])
 
     # Check if we need to log in. Only used for initial setup of user data.
-    if gotta_log_in:
+    if GOTTA_LOG_IN:
         page.locator("mw-sign-in-banner").get_by_role("button", name="Sign in").click()
         page.get_by_label("Email or phone").fill(config["username"])
         page.get_by_label("Email or phone").press("Enter")
@@ -72,8 +77,7 @@ def run(playwright: Playwright) -> None:
     # Check if there is anything to delete.
     if names_to_check:
         try:
-            for name in names_to_check:
-                value = names_to_check[name]
+            for name, value in names_to_check.items():
                 if config["DEBUG"]:
                     print(f"Checking if conversation: {name}, {value['desc']} exists.")
                 # Check if the message is meant to be kept for 2 days, and if it falls in the keep period will be skipped.
@@ -87,7 +91,6 @@ def run(playwright: Playwright) -> None:
                         page.get_by_label(label).click()
                         page.get_by_role("menuitem", name="Delete").click()
                         page.get_by_role("button", name="Cancel").click()
-                        pass
                     else:
                         if config["DEBUG"]:
                             print(f"{value['desc']} is being kept some time.")
@@ -107,13 +110,11 @@ def run(playwright: Playwright) -> None:
                 else:
                     if config["DEBUG"]:
                         print(f"The {name} conversation is not at least an hour old.")
-                pass
         except Exception as e:
             if config["DEBUG"]:
                 print(f"There was an error processing names_to_check:\n{e}END ERROR\n")
     else:
         print("No names found.")
-        pass
     if config["DEBUG"]:
         print("Completed cleaning up text messages.")
 
